@@ -1,0 +1,3 @@
+C:/Users/adamp/Desktop/Programovacie techniky/Zadanie 1/cmake-build-debug/CMakeFiles/Zadanie_1.dir
+C:/Users/adamp/Desktop/Programovacie techniky/Zadanie 1/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/adamp/Desktop/Programovacie techniky/Zadanie 1/cmake-build-debug/CMakeFiles/rebuild_cache.dir
