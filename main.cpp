@@ -1,5 +1,5 @@
 /*
-Meno a priezvisko:
+Meno a priezvisko: Adam Pozník
 
 POKYNY:
 (1)  Implementujte funkcie tak, aby splnali popis pri ich deklaraciach.
@@ -19,6 +19,7 @@ POKYNY:
 
 #include <iostream>
 #include <climits>
+#include <cstring>
 
 using namespace std;
 
@@ -61,7 +62,7 @@ enum class Result {
         [in] position - pozicia, ktora bude vytlacena
 */
 void print(const Position *position) {
-    // TODO
+    std::cout << "x: " << position->x << ", y: " << position->y << std::endl;
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -71,7 +72,7 @@ void print(const Position *position) {
     Implementujte rovnaku funkcionalitu ako v prvom priklade. Rozdiel je len typ parametra funkcie.
 */
 void print(const Position &position) {
-    // TODO
+    std::cout << "x: " << position.x << ", y: " << position.y << std::endl;
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -89,7 +90,8 @@ void print(const Position &position) {
         Nemusite osetrovat moznost chybnych udajov na standardnom vstupe.
  */
 void readFromStandardInput(Position *position) {
-    // TODO
+    std::cin >> position->x;
+    std::cin >> position->y;
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -117,8 +119,19 @@ void readFromStandardInput(Position *position) {
         vstup: () => navratova hodnota: minimalna hodnota reprezentovatelna datovym typom 'int', result: 'Result::FAILURE'
 */
 int maximum(const int *data, std::size_t length, Result *result) {
-    // TODO
-    return INT_MIN; // tento riadok zmente podla zadania, je tu len kvoli kompilacii
+    if (length == 0){
+        *result = Result::FAILURE;
+        return INT_MIN;
+    } else{
+        int max = data[0];
+        for (int i = 1; i < length; ++i) {
+            if (data[i] > max){
+                max = data [i];
+            }
+        }
+        *result = Result::SUCCESS;
+        return max;
+    }
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -140,8 +153,19 @@ int maximum(const int *data, std::size_t length, Result *result) {
         - vstup: -500  => vystup: 4
 */
 int numDigits(int value) {
-    // TODO
-    return -1; // tento riadok zmente podla zadania, je tu len kvoli kompilacii
+    int count = 0;
+    if (value == 0){
+        return 1;
+    } else {
+        if (value < 0){
+            count++;
+        }
+        while (value != 0) {
+            value = value / 10;
+            count++;
+        }
+    }
+    return count;
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -171,7 +195,40 @@ int numDigits(int value) {
         Vsimnite si pretazenie funkcie. Tento zdrojovy subor obsahuje 3 funkcie s nazvom 'print'.
 */
 void print(const Date *date, const char *format) {
-    // TODO
+    int i = 0;
+    int j = 0;
+    char text[strlen(format) + 10];
+    char temp [10];
+    while (format[i] != '\0'){
+        if (format[i] == 'D'){
+            std::sprintf(temp, "%d", date->day);
+            for (int k = 0; k < strlen(temp); k++) {
+                text[j] = temp[k];
+                j++;
+            }
+            i++;
+        } else if (format[i] == 'M'){
+            std::sprintf(temp, "%d", date->month);
+            for (int k = 0; k < strlen(temp); k++) {
+                text[j] = temp[k];
+                j++;
+            }
+            i++;
+        } else if (format[i] == 'Y'){
+            std::sprintf(temp, "%d", date->year);
+            for (int k = 0; k < strlen(temp); k++) {
+                text[j] = temp[k];
+                j++;
+            }
+            i++;
+        } else {
+            text[j] = format[i];
+            i++;
+            j++;
+        }
+    }
+    text[j] = '\0';
+    std::cout << text << std::endl;
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -190,8 +247,8 @@ void print(const Date *date, const char *format) {
         Adresa na dynamicky alokovany datum, ktoreho obsah je dany parametrami
 */
 Date* create(int day, int month, int year) {
-    // TODO
-    return nullptr; // tento riadok zmente podla zadania, je tu len kvoli kompilacii
+    Date *p = new Date{year, month, day};
+    return p;
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -209,7 +266,8 @@ Date* create(int day, int month, int year) {
         (*date) ma hodnotu 'nullptr'.
 */
 void destroy(Date **date) {
-    // TODO
+    delete *date;
+    *date = nullptr;
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -237,8 +295,11 @@ void destroy(Date **date) {
             - nepriestupne roky: 1500, 1700, 1800, 1900, 2100, 2200, 2300, 2500
 */
 bool isInLeapYear(const Date *date) {
-    // TODO
-    return false; // tento riadok zmente podla zadania, je tu len kvoli kompilacii
+    if ((date->year % 4 != 0) || ((date->year % 4 == 0) && (date->year % 100 == 0) && (date->year % 400 != 0))){
+        return false;
+    } else {
+        return true;
+    }
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -263,8 +324,26 @@ bool isInLeapYear(const Date *date) {
         Rok v datume je kladne cislo
 */
 bool isValid(const Date *date) {
-    // TODO
-    return false; // tento riadok zmente podla zadania, je tu len kvoli kompilacii
+    if (((0 < date->month) && (date->month < 13)) && ((0 < date->day) && (date->day < 32))){
+        if (date->month == 2) {
+            if((isInLeapYear(date) == 1) && ((0 < date->day) && (date->day < 30))){
+                return true;
+            } else if ((0 < date->day) && (date->day < 29)){
+                return true;
+            } else {
+                return false;
+            }
+        } else if ((date->month == 4) || (date->month == 6) || (date->month == 9) || (date->month == 11)){
+            if ((0 < date->day) && (date->day < 31)){
+                return true;
+            } else {
+                return false;
+            }
+        }
+        return true;
+    } else{
+        return false;
+    }
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -275,7 +354,7 @@ bool isValid(const Date *date) {
 
 int main() {
 
-    // tu mozete doplnit testovaci kod
+
 
     return 0;
 }
