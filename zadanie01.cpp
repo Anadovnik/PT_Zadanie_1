@@ -62,7 +62,7 @@ enum class Result {
         [in] position - pozicia, ktora bude vytlacena
 */
 void print(const Position *position) {
-    std::cout << "x: " << position->x << ", y: " << position->y << std::endl;
+    std::cout << "x: " << position->x << ", y: " << position->y;
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -72,7 +72,7 @@ void print(const Position *position) {
     Implementujte rovnaku funkcionalitu ako v prvom priklade. Rozdiel je len typ parametra funkcie.
 */
 void print(const Position &position) {
-    std::cout << "x: " << position.x << ", y: " << position.y << std::endl;
+    std::cout << "x: " << position.x << ", y: " << position.y;
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -124,7 +124,7 @@ int maximum(const int *data, std::size_t length, Result *result) {
         return INT_MIN;
     } else{
         int max = data[0];
-        for (int i = 1; i < length; ++i) {
+        for (std::size_t i = 1; i < length; ++i) {
             if (data[i] > max){
                 max = data [i];
             }
@@ -202,21 +202,21 @@ void print(const Date *date, const char *format) {
     while (format[i] != '\0'){
         if (format[i] == 'D'){
             std::sprintf(temp, "%d", date->day);
-            for (int k = 0; k < strlen(temp); k++) {
+            for (std::size_t k = 0; k < strlen(temp); k++) {
                 text[j] = temp[k];
                 j++;
             }
             i++;
         } else if (format[i] == 'M'){
             std::sprintf(temp, "%d", date->month);
-            for (int k = 0; k < strlen(temp); k++) {
+            for (std::size_t k = 0; k < strlen(temp); k++) {
                 text[j] = temp[k];
                 j++;
             }
             i++;
         } else if (format[i] == 'Y'){
             std::sprintf(temp, "%d", date->year);
-            for (int k = 0; k < strlen(temp); k++) {
+            for (std::size_t k = 0; k < strlen(temp); k++) {
                 text[j] = temp[k];
                 j++;
             }
@@ -228,7 +228,7 @@ void print(const Date *date, const char *format) {
         }
     }
     text[j] = '\0';
-    std::cout << text << std::endl;
+    std::cout << text;
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -354,7 +354,9 @@ bool isValid(const Date *date) {
 
 int main() {
 
-
+    Date date = {2020, 4,10};
+    char const *format = "M/D/Y";
+    print (&date, format);
 
     return 0;
 }
